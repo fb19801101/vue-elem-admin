@@ -1,0 +1,5 @@
+{"code":0,"msg": "获取数据成功","count":3,"data":[
+  {"id":1,"username":"admin","password":"admin@123456","name":"管理员","role":"admin","status":1},
+  {"id":2,"username":"test","password":"test@123456","name":"测试员","role":"editor","status":0},
+  {"id":3,"username":"normal","password":"normal@111111","name":"消费者","role":"normal","status":0}
+]}
