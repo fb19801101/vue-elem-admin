@@ -380,13 +380,18 @@ export default {
       return treeToArray(data);
     },
     colTree() {
-      return this.cols[0];
+      if (this.btree) {
+        return this.cols[0];
+      }
+      return {};
     },
     colData() {
       let tmp = [];
       const cols = this.cols;
       cols.forEach((col, index) => {
-        if (index > 0) {
+        if (this.btree && index > 0) {
+          tmp.push(col);
+        } else {
           tmp.push(col);
         }
       });

@@ -76,10 +76,8 @@
                     <el-option
                       v-for="(qx, index) in ceQxs"
                       :key="index"
-                      :label="
-                        index + 1 + '. ' + splitCeQx(qx.ceQx) + ' 曲线要素'
-                      "
-                      :value="qx.ceQx"
+                      :label="index + 1 + '. ' + splitCeQx(qx) + ' 曲线要素'"
+                      :value="qx"
                     ></el-option>
                   </el-select>
                 </el-form-item>

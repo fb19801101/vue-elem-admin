@@ -7,7 +7,7 @@
           class="no-redirect"
           >{{ generateTitle(item.meta.title) }}</span
         >
-        <a v-else @click.prevent="handleLink(item)">{{
+        <a v-else class="has-redirect" @click.prevent="handleLink(item)">{{
           generateTitle(item.meta.title)
         }}</a>
       </el-breadcrumb-item>
@@ -72,13 +72,24 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+@import "~@/styles/variables.scss";
+
 .app-breadcrumb.el-breadcrumb {
   display: inline-block;
   font-size: 14px;
   line-height: 50px;
   margin-left: 8px;
+
+  .has-redirect {
+    color: $menuText !important;
+    &:hover {
+      color: $menuActiveText !important;
+    }
+  }
+
   .no-redirect {
-    color: #97a8be;
+    /*color: #97a8be;*/
+    color: $menuText !important;
     cursor: text;
   }
 }

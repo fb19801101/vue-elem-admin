@@ -56,7 +56,7 @@ const companyRouter = {
   meta: {
     title: menuData.company.title,
     icon: "component",
-    roles: ["admin", "test"]
+    roles: ["test"]
   },
   children: menuData.company.children
 };
@@ -69,7 +69,7 @@ const projectRouter = {
   meta: {
     title: menuData.project.title,
     icon: "component",
-    roles: ["admin", "test"]
+    roles: ["test"]
   },
   children: menuData.project.children
 };

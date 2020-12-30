@@ -3,8 +3,10 @@
 
 const path = require("path");
 const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV);
+const IS_MOCK = ["MOCKER", "mocker"].includes(process.env.VUE_APP_REQUEST_TYPE);
 const resolve = dir => path.join(__dirname, dir);
 const apiMocker = require("webpack-api-mocker");
+
 const mocker = resolve("src/mocker/index");
 
 module.exports = {
@@ -17,15 +19,17 @@ module.exports = {
     hot: true,
     hotOnly: true, // 是否热更新
     open: true, // 设置自动打开
-    port: 8880, // 设置端口
+    port: 8888, // 设置端口
     before(app) {
       // 注意，此处引用的是自定义的接口文件
-      apiMocker(app, mocker, {
-        proxy: {
-          "/repos/*": "https://api.github.com/"
-        },
-        changeHost: true
-      });
+      if (IS_MOCK) {
+        apiMocker(app, mocker, {
+          proxy: {
+            "/repos/*": "https://api.github.com/"
+          },
+          changeHost: true
+        });
+      }
     },
     proxy: {
       // 设置多个代理跨域
@@ -35,33 +39,6 @@ module.exports = {
         // secure: false, // 如果是http接口，需要配置该参数
         pathRewrite: {
           ["^" + process.env.VUE_APP_BASE_API]: ""
-        }
-      },
-
-      "/consumer": {
-        // axios 后端加载
-        target: "http://localhost:8055",
-        changeOrigin: true,
-        pathRewrite: {
-          "^/consumer": ""
-        }
-      },
-
-      "/curve-element": {
-        // axios 后端加载
-        target: "http://localhost:8057",
-        changeOrigin: true,
-        pathRewrite: {
-          "^/curve-element": ""
-        }
-      },
-
-      "/login": {
-        // axios 后端加载
-        target: "http://localhost:8059",
-        changeOrigin: true,
-        pathRewrite: {
-          "^/login": ""
         }
       },
 

@@ -40,7 +40,11 @@
         trigger="click"
       >
         <div class="avatar-wrapper">
-          <img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar" />
+          <img
+            :src="avatar + '?imageView2/1/w/80/h/80'"
+            class="user-avatar"
+            alt=""
+          />
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
@@ -107,9 +111,12 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+@import "~@/styles/variables.scss";
+
 .navbar {
   height: 50px;
   overflow: hidden;
+  background-color: $menuBg !important;
 
   .hamburger-container {
     line-height: 46px;
@@ -119,7 +126,8 @@ export default {
     transition: background 0.3s;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.025);
+      /*background: rgba(0, 0, 0, 0.025);*/
+      background-color: $menuHover !important;
     }
   }
 
@@ -146,7 +154,8 @@ export default {
       padding: 0 8px;
       height: 100%;
       font-size: 18px;
-      color: #5a5e66;
+      /*color: #5a5e66;*/
+      color: $menuText;
       vertical-align: text-bottom;
 
       &.hover-effect {

@@ -56,7 +56,7 @@
         {{ $t("login.login") }}
       </el-button>
 
-      <div style="position:relative">
+      <div v-if="checkPermission(['admin'])" style="position:relative">
         <div class="tips">
           <span>{{ $t("login.username") }} : admin</span>
           <span>{{ $t("login.password") }} : {{ $t("login.any") }}</span>
@@ -122,6 +122,7 @@
 
 <script>
 import { validUsername } from "@/utils/validate";
+import checkPermission from "@/utils/permission"; // 权限判断函数
 import LangSelect from "@/components/LangSelect";
 import SocialSign from "./socialsignin";
 import Register from "./register";
@@ -147,7 +148,7 @@ export default {
     return {
       loginForm: {
         username: "admin",
-        password: "1111111"
+        password: "123456"
       },
       loginRules: {
         username: [
@@ -179,6 +180,7 @@ export default {
     // window.removeEventListener('hashchange', this.afterQRScan)
   },
   methods: {
+    checkPermission,
     showPwd() {
       if (this.passwordType === "password") {
         this.passwordType = "";

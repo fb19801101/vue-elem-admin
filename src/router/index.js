@@ -93,12 +93,23 @@ export const constantRouterMap = [
         }
       }
     ]
-  },
+  }
+];
 
+export default new Router({
+  // mode: 'history', // require service support
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRouterMap
+});
+
+export const asyncRouterMap = [
   {
     path: "/documentation",
     component: Layout,
     redirect: "/documentation/index",
+    meta: {
+      roles: ["admin", "editor", "normal"] // you can set roles in root nav }
+    },
     children: [
       {
         path: "index",
@@ -112,6 +123,9 @@ export const constantRouterMap = [
     path: "/guide",
     component: Layout,
     redirect: "/guide/index",
+    meta: {
+      roles: ["admin", "editor", "normal"] // you can set roles in root nav }
+    },
     children: [
       {
         path: "index",
@@ -120,16 +134,8 @@ export const constantRouterMap = [
         meta: { title: "guide", icon: "guide", noCache: true }
       }
     ]
-  }
-];
+  },
 
-export default new Router({
-  // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRouterMap
-});
-
-export const asyncRouterMap = [
   {
     path: "/users",
     component: Layout,

@@ -31,12 +31,14 @@ export default {
 };
 </script>
 
-<style scoped>
+<style rel="stylesheet/scss" lang="scss" scoped>
+@import "~@/styles/variables.scss";
 .hamburger {
   display: inline-block;
   vertical-align: middle;
   width: 20px;
   height: 20px;
+  background-color: $menuText !important;
 }
 
 .hamburger.is-active {

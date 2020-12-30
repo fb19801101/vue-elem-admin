@@ -5,7 +5,10 @@
       class="drawer-bg"
       @click="handleClickOutside"
     />
-    <sidebar class="sidebar-container" />
+    <div class="img-container">
+      <img :src="emptyGif" class="emptyGif" alt="" />
+    </div>
+    <sidebar class="sidebar-container" style="margin-top:150px" />
     <div class="main-container">
       <navbar />
       <tags-view />
@@ -17,6 +20,7 @@
 <script>
 import { Navbar, Sidebar, AppMain, TagsView } from "./components";
 import ResizeMixin from "./mixin/ResizeHandler";
+import userGif from "@/assets/roles_images/user2.gif";
 
 export default {
   name: "Layout",
@@ -25,6 +29,11 @@ export default {
     Sidebar,
     AppMain,
     TagsView
+  },
+  data() {
+    return {
+      emptyGif: userGif
+    };
   },
   mixins: [ResizeMixin],
   computed: {
@@ -52,7 +61,9 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+@import "~@/styles/variables.scss";
 @import "~@/styles/mixin.scss";
+
 .app-wrapper {
   @include clearfix;
   position: relative;
@@ -71,5 +82,23 @@ export default {
   height: 100%;
   position: absolute;
   z-index: 999;
+}
+.img-container {
+  transition: width 0.28s;
+  width: $sideBarWidth !important;
+  height: 150px;
+  position: fixed;
+  font-size: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  background-color: $menuBg !important;
+
+  .emptyGif {
+    display: block;
+    width: 120px;
+    margin: 20px auto;
+  }
 }
 </style>
