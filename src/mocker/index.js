@@ -27,7 +27,7 @@ const proxy = {
     });
   },
 
-  "GET /mock-api/curve-element/selectCurveElement": curveData,
+  "GET /mock-api/curve-element/selectCurveElement": curveData[0],
   "GET /mock-api/curve-element/selectCurveLine": {
     code: 0,
     msg: "获取数据成功",
@@ -41,29 +41,47 @@ const proxy = {
       "D2K161+800.957-D2K182+828.224"
     ]
   },
+  "POST /mock-api/curve-element/searchCurveElement": (req, res) => {
+    res.send(curveData[1]);
+  },
+  "POST /mock-api/curve-element/deleteCurveElement": (req, res) => {
+    res.send(curveData[2]);
+  },
+  "POST /mock-api/curve-element/modifyCurveElement": (req, res) => {
+    res.send(curveData[3]);
+  },
 
-  "GET /mock-api/users/selectUsers": usersData,
+  "GET /mock-api/users/selectUsers": (req, res) => {
+    res.send({
+      code: 200,
+      msg: "获取用户成功",
+      data: usersData[0]
+    });
+  },
+  "GET /mock-api/users/searchUsers": (req, res) => {
+    res.send({
+      code: 200,
+      msg: "查询用户成功",
+      count: 1,
+      param: req.query,
+      data: usersData[1]
+    });
+  },
   "POST /mock-api/users/registerUser": (req, res) => {
     res.send({
       code: 200,
       msg: "注册用户成功",
       count: 1,
       param: req.body,
-      data: {
-        id: 3,
-        username: "normal",
-        password: "normal@111111",
-        name: "消费者",
-        role: "normal",
-        status: 0
-      }
+      data: usersData[2]
     });
   },
   "GET /mock-api/users/deleteUser": (req, res) => {
     res.send({
       code: 200,
       msg: "删除用户成功",
-      param: req.params
+      param: req.query,
+      data: usersData[3]
     });
   },
   "POST /mock-api/users/modifyUser": (req, res) => {
@@ -72,14 +90,7 @@ const proxy = {
       msg: "修改用户成功",
       count: 1,
       param: req.body,
-      data: {
-        id: 3,
-        username: "normal",
-        password: "normal@111111",
-        name: "消费者",
-        role: "normal",
-        status: 0
-      }
+      data: usersData[4]
     });
   }
 };

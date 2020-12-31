@@ -5,6 +5,11 @@ export default {
   selectUsers: function() {
     return axios.axiosGet("/users/selectUsers");
   },
+  searchUsers: function(username) {
+    return axios.axiosGet("/users/searchUsers", {
+      username: username
+    });
+  },
   registerUser: function(user) {
     return axios.axiosPost("/users/registerUser", {
       user: user

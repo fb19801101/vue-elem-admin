@@ -1,8 +1,12 @@
 <template>
   <div id="vue-table">
-    <el-row type="flex" justify="space-between">
+    <el-row
+      type="flex"
+      justify="space-between"
+      :style="{ width: width + 'px' }"
+    >
       <el-col :span="4">
-        <el-button-group v-if="toolbar.left">
+        <el-button-group>
           <el-tooltip
             v-for="(btn, idx) in buttons.left"
             :key="idx"
@@ -11,6 +15,9 @@
             placement="bottom"
           >
             <el-button
+              v-if="
+                toolbar.left != null && toolbar.left.indexOf(btn.label) !== -1
+              "
               :size="btn.size"
               :icon="btn.icon"
               @click="handleRow(btn.param, btn.event)"
@@ -21,18 +28,18 @@
       <el-col :span="4">
         <el-input
           v-model="input"
-          placeholder="请输入搜索内容"
+          :placeholder="placeholder"
           @input="handleInput"
           size="mini"
           v-if="toolbar.search"
         ></el-input>
       </el-col>
-      <el-col :span="8">
-        <el-tag>{{ caption }}</el-tag>
+      <el-col :span="8" tag="div">
+        <div class="el-caption">{{ caption }}</div>
       </el-col>
-      <el-col :span="5"> </el-col>
-      <el-col :span="3">
-        <el-button-group v-if="toolbar.right">
+      <el-col :span="4"> </el-col>
+      <el-col :span="4">
+        <el-button-group>
           <el-tooltip
             v-for="(btn, idx) in buttons.right"
             :key="idx"
@@ -41,6 +48,9 @@
             placement="bottom"
           >
             <el-button
+              v-if="
+                toolbar.right != null && toolbar.right.indexOf(btn.label) !== -1
+              "
               :size="btn.size"
               :icon="btn.icon"
               @click="handleRow(btn.param, btn.event)"
@@ -52,7 +62,7 @@
 
     <el-table
       ref="table"
-      header-row-class-name="table-header"
+      header-row-class-name="el-header"
       :data="tableData"
       :key="refresh"
       border
@@ -63,10 +73,11 @@
       :span-method="handleSpan"
       @sort-change="handleSort"
       @row-click="toggleExpand"
-      :row-style="showRow"
+      :row-style="rowStyle"
+      :header-row-style="headerStyle"
       style="width: 100%"
     >
-      <el-table-column type="selection" width="40"> </el-table-column>
+      <el-table-column type="selection" width="55"> </el-table-column>
       <el-table-column
         v-if="btree"
         :prop="colTree.prop"
@@ -93,8 +104,8 @@
         :v-if="col.hide ? Boolean(false) : Boolean(true)"
         :key="index"
         :prop="col.prop"
-        :align="col.center ? 'center' : 'left'"
-        :align-header="col.center ? 'center' : 'left'"
+        :align="col.align"
+        :align-header="col.align"
         :label="col.label"
         :show-overflow-tooltip="col.overflow ? Boolean(true) : Boolean(false)"
         :sortable="col.sort"
@@ -206,7 +217,7 @@ export default {
      *              【text】 => String（必填） => 筛选文字
      *              【value】 => String（必填） => 筛选变量值
      *     【sort】 => String => 排序 custom
-     *     【center】 => Boolean => default: false => 为<true>时该列居中对齐, 默认局左对齐
+     *     【align】 => String => default: left => 为<center>时该列居中对齐, <right>时该列右对齐, 默认局左对齐
      *     【overflow】 => Boolean => default: false => 为<true>时内容溢出隐藏
      */
     cols: {
@@ -245,8 +256,10 @@ export default {
       default: () => {
         return {
           search: false,
-          left: false,
-          right: false
+          left: [],
+          right: []
+          //left: ['set', 'search', 'refresh', 'upload', 'download'],
+          //right: ['edit', 'delete', 'share', 'printer'， ‘lock’]
         };
       }
     },
@@ -257,69 +270,86 @@ export default {
         return {
           left: [
             {
+              label: "set",
               size: "mini",
               icon: "el-icon-setting",
-              event: "click",
+              event: "btn-set",
               param: null,
               tip: "设置"
             },
             {
+              label: "search",
               size: "mini",
               icon: "el-icon-search",
-              event: "click",
+              event: "btn-search",
               param: null,
               tip: "搜索"
             },
             {
+              label: "refresh",
               size: "mini",
               icon: "el-icon-refresh",
-              event: "click",
+              event: "btn-refresh",
               param: null,
               tip: "刷新"
             },
             {
+              label: "upload",
               size: "mini",
               icon: "el-icon-upload2",
-              event: "click",
+              event: "btn-upload",
               param: null,
               tip: "上传"
             },
             {
+              label: "download",
               size: "mini",
               icon: "el-icon-download",
-              event: "click",
+              event: "btn-download",
               param: null,
               tip: "下载"
             }
           ],
           right: [
             {
+              label: "edit",
               size: "mini",
               icon: "el-icon-edit",
-              event: "click",
+              event: "btn-edit",
               param: null,
               tip: "编辑"
             },
             {
+              label: "delete",
               size: "mini",
               icon: "el-icon-delete",
-              event: "click",
+              event: "btn-delete",
               param: null,
               tip: "删除"
             },
             {
+              label: "share",
               size: "mini",
               icon: "el-icon-share",
-              event: "click",
+              event: "btn-share",
               param: null,
               tip: "分享"
             },
             {
+              label: "printer",
               size: "mini",
               icon: "el-icon-printer",
-              event: "click",
+              event: "btn-printer",
               param: null,
               tip: "打印"
+            },
+            {
+              label: "lock",
+              size: "mini",
+              icon: "el-icon-lock",
+              event: "btn-lock",
+              param: null,
+              tip: "锁定"
             }
           ]
         };
@@ -328,7 +358,8 @@ export default {
     filters: {
       type: Array,
       default: () => {
-        return [{ prop: "ceJd" }, { prop: "ceDk" }];
+        //return [{ prop: "ceJd" }, { prop: "ceDk" }];
+        return [];
       }
     },
     summary: {
@@ -367,34 +398,66 @@ export default {
     }
   },
   data() {
-    return { input: "", guard: 1, toggled: false };
+    return {
+      input: "",
+      filterData: [],
+      placeholder: "",
+      width: 0,
+      toggled: false
+    };
   },
   computed: {
-    tableData() {
-      const data = this.rows;
-      if (data.length === 0) {
-        return [];
-      }
+    tableData: {
+      get() {
+        const _this = this;
+        if (_this.btree) {
+          const data = _this.rows;
+          if (data.length === 0) {
+            return [];
+          }
 
-      addAttrs(data, { expand: !this.folder });
-      return treeToArray(data);
+          addAttrs(data, { expand: !_this.folder });
+          return treeToArray(data);
+        }
+
+        if (_this.input.length > 0) {
+          return _this.filterData;
+        }
+        return _this.rows;
+      },
+      set(val) {
+        return val;
+      }
     },
     colTree() {
-      if (this.btree) {
-        return this.cols[0];
+      const _this = this;
+      if (_this.btree) {
+        return _this.cols[0];
       }
       return {};
     },
     colData() {
+      const _this = this;
       let tmp = [];
-      const cols = this.cols;
+      const cols = _this.cols;
+      let width = 0;
+      let _with = 1230;
+      _this.placeholder = "";
       cols.forEach((col, index) => {
-        if (this.btree && index > 0) {
+        if (_this.btree && index > 0) {
           tmp.push(col);
         } else {
           tmp.push(col);
         }
+
+        if (_this.filters && _this.filters.indexOf(col.prop) !== -1) {
+          _this.placeholder = _this.placeholder + "【" + col.label + "】";
+        }
+
+        width += col.width;
       });
+
+      _this.width = (width < _with ? _with : width) + 55;
       return tmp;
     }
   },
@@ -481,7 +544,7 @@ export default {
       }
     },
     // 设置行样式
-    showRow: function({ row }) {
+    rowStyle: function({ row }) {
       const parent = row._parent;
       const show = parent ? parent._expand && parent._show : true;
       row._show = show;
@@ -500,6 +563,12 @@ export default {
 
       return styleJson;
     },
+    // 设置行样式
+    headerStyle: function() {
+      return {
+        textAlign: "center"
+      };
+    },
     // 显示表格树图标
     showTreeIcon(row) {
       return row._icon;
@@ -515,11 +584,11 @@ export default {
     // eslint-disable-next-line no-unused-vars
     input: function(val, oldVal) {
       let _this = this;
-      _this.tableData = _this.rows.filter(item => {
+      _this.filterData = _this.rows.filter(item => {
         // return ~item.ceJd.indexOf(val);
         let ret = false;
         for (let i = 0; i < _this.filters.length; i++) {
-          let _ret = item[_this.filters[i].prop].toString().includes(val);
+          let _ret = item[_this.filters[i]].toString().includes(val);
           ret = ret || _ret;
         }
 
@@ -531,14 +600,22 @@ export default {
 </script>
 
 <style lang="stylus">
+
 #vue-table {
   position: relative;
 
-  .table-header {
+  .el-header {
     background-color: #f5f7fa;
     font-size: 13px;
     color: #6f7683;
     font-weight: bold;
+  }
+
+  .el-caption {
+    font-size: 20px;
+    font-family: "Microsoft YaHei UI";
+    font-weight: bold;
+    text-align: center;
   }
 
   .el-table {
@@ -668,7 +745,6 @@ export default {
   .el-table .double-row td {
     background: #eeeeee !important;
   }
-
 
   .el-table-expand {
     font-size: 0;

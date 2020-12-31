@@ -317,7 +317,7 @@
                     :rows="rows"
                     :refresh="refresh"
                     :page="page"
-                    :toolbar="{ search: true, left: true, right: true }"
+                    :toolbar="{ search: true }"
                     @handleRow="handleRow"
                     @handleSort="handleSort"
                     @handlePage="handlePage"
@@ -580,8 +580,8 @@ export default {
         label: "操作",
         width: 130,
         slot: [
-          { type: "click", name: "edit" },
-          { type: "click", name: "del" }
+          { type: "row-edit", name: "edit" },
+          { type: "row-del", name: "del" }
         ]
       }
     ];
@@ -699,7 +699,7 @@ export default {
         })
         .then(res => {
           _this.$message.success(res.data.msg);
-          console.log(res.data);
+          _this.rows = res.data.data;
         })
         .catch(err => {
           console.log(err);
@@ -711,7 +711,7 @@ export default {
         .deleteCurveElement(_this.ceQx, _this.curve.ceJd)
         .then(res => {
           _this.$message.success(res.data.msg);
-          console.log(res.data);
+          _this.rows = res.data.data;
         })
         .catch(err => {
           console.log(err);
@@ -764,7 +764,7 @@ export default {
         )
         .then(res => {
           _this.$message.success(res.data.msg);
-          console.log(res.data);
+          _this.rows = res.data.data;
         })
         .catch(err => {
           console.log(err);
@@ -871,7 +871,6 @@ export default {
           _this.rows = res.data.data;
           _this.page = { total: res.data.count, size: 20, cur: 1 };
           _this.refresh = val;
-          console.log(res.data.data);
         })
         .catch(err => {
           console.log(err);

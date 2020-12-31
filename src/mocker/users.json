@@ -1,5 +1,16 @@
-{"code":0,"msg": "获取数据成功","count":3,"data":[
-  {"id":1,"username":"admin","password":"admin@123456","name":"管理员","role":"admin","status":1},
-  {"id":2,"username":"test","password":"test@123456","name":"测试员","role":"editor","status":0},
-  {"id":3,"username":"normal","password":"normal@111111","name":"消费者","role":"normal","status":0}
-]}
+[{"code":0,"msg": "获取数据成功","count":4,"data":[
+  {"id":1,"username":"admin","password":"admin@123456","role":"admin","phone":"13379049154","img":"http://www.baidu.com/"},
+  {"id":2,"username":"editor","password":"test@123456","role":"editor","phone":"13379049154","img":"http://www.baidu.com/"},
+  {"id":3,"username":"normal","password":"normal@123456","role":"normal","phone":"13379049154","img":"http://www.baidu.com/"},
+  {"id":4,"username":"test","password":"test@123456","role":"test","phone":"13379049154","img":"http://www.baidu.com/"}
+]},
+{"code":0,"msg": "查询数据成功","count":2,"data":[
+  {"id":1,"username":"search","password":"search@123456","role":"normal","phone":"13379049154","img":"http://www.baidu.com/"}
+]},
+{"code":0,"msg": "注册数据成功","count":1,"data":[
+  {"id":5,"username":"register","password":"register@123456","role":"editor","phone":"17791540396","img":"http://www.baidu.com/"}
+]},
+{"code":0,"msg": "删除数据成功","count":0,"data":[]},
+{"code":0,"msg": "修改数据成功","count":1,"data":[
+  {"id":4,"username":"modify","password":"modify@123456","role":"test","phone":"17791540396","img":"http://www.baidu.com/"}
+]}]
